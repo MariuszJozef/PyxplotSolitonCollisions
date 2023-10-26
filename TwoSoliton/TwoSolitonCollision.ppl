@@ -1,7 +1,6 @@
 set width 10
 set numeric sigfig 3
 
-
 subroutine SolitonVelocity(waveNumber, integrationConst)
 {
     velocity = []
@@ -188,8 +187,6 @@ set key below
 
 xMin = -20
 xMax = -xMin
-
-
 xTickStep = (xMax - xMin) / 4
 mxTickStep = xTickStep / 3
 set xrange [xMin : xMax]
@@ -206,6 +203,7 @@ set yrange [yMin - yExtra : yMax + yExtra]
 set ytics yMin, yTickStep, yMax
 set mytics yMin, myTickStep, yMax
 
+
 set axis x2 top linked x1
 set x2tics (r"$\delta_0$" phaseShift[0], r"$\delta_1$" phaseShift[1])
 set grid x1y1
@@ -220,6 +218,7 @@ print "xMin = %.0f, xMax = %.0f, yMin = %.3f, yMax = %.3f" %(xMin, xMax, yMin, y
 print "plotPointsPerUnitLength = %d, plotPoints = %d, xIncrement = %.2E" %(plotPointsPerUnitLength, plotPoints, xIncrement)
 
 print "Soliton max travel time = %.1f" % SolitonMaxTravelTime(xMin, xMax, phaseShift)
+
 
 set samples plotPoints
 
