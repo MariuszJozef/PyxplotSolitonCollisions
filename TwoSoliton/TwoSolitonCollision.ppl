@@ -160,7 +160,7 @@ phaseShift = vector(-15, 10)
 ghostInitialPositionCorrection = vector(0.0, 2.9)
 
 
-time = 22
+time = 0
 filename = "Plots/TwoSolitonCollision_t=" + (time).str() + ".pdf"
 set terminal pdf
 set output "%s" %filename
@@ -228,7 +228,7 @@ plot MultiSoliton(x, time) \
         title r"\parbox[t]{11cm}{%s \\[1ex] %s \\[1ex] %s \\[1ex] %s}" \
         %(texExpression2, texExpression3, texExpression4, texExpression5), \
     SingleSolitonGhost(x, time, waveNumber[0], phaseShift[0] + ghostInitialPositionCorrection[0]) \
-        with linetype 5 linewidth 1 color Rhodamine \
+        with linetype 5 linewidth 2 color Rhodamine \
         title "``Ghost'': an individual would-be soliton in the absence of collision", \
     SingleSolitonGhost(x, time, waveNumber[1], phaseShift[1] + ghostInitialPositionCorrection[1]) \
         with linetype 5 linewidth 2 color Rhodamine title ""
