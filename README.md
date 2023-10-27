@@ -9,18 +9,38 @@ pyxplot TwoSolitonCollisionAnimate.py
 ```
 
 ![Plot1](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/TwoSoliton/Plots/TwoSolitonCollision_t=0.jpeg)
-![Plot2](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/TwoSoliton/Plots/TwoSolitonCollision_t=21.jpeg)
-![Plot2](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/TwoSoliton/Plots/TwoSolitonCollision_t=21.5.jpeg)
+
+</br>
+</br>
+</br>
+
 ![Plot2](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/TwoSoliton/Plots/TwoSolitonCollision_t=22.jpeg)
+
+</br>
+</br>
 
 ```
 cd ../ThreeSoliton
 pyxplot ThreeSolitonCollision.py 
 pyxplot ThreeSolitonCollisionAnimate.py 
 ```
+
 ![Plot3](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/ThreeSoliton/Plots/ThreeSolitonCollision_t=0.jpeg)
+
+</br>
+</br>
+</br>
+
 ![Plot4](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/ThreeSoliton/Plots/ThreeSolitonCollision_t=21.5.jpeg)
+
+</br>
+</br>
+</br>
+
 ![Plot4](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/ThreeSoliton/Plots/ThreeSolitonCollision_t=22.jpeg)
+
+</br>
+</br>
 
 ```
 cd ../FourSoliton
@@ -29,8 +49,21 @@ pyxplot FourSolitonCollisionAnimate.py
 ```
 
 ![Plot5](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/FourSoliton/Plots/FourSolitonCollision_t=0.jpeg)
+
+</br>
+</br>
+</br>
+
 ![Plot6](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/FourSoliton/Plots/FourSolitonCollision_t=20.jpeg)
+
+</br>
+</br>
+</br>
+
 ![Plot6](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/FourSoliton/Plots/FourSolitonCollision_t=27.jpeg)
+
+</br>
+</br>
 
 ## Compare similar results with other scientific plotting software: Pyxplot, Asymptote, SageMath
 

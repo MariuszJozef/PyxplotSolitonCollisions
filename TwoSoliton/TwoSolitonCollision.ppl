@@ -1,4 +1,4 @@
-set width 10
+set width 16
 set numeric sigfig 3
 
 subroutine SolitonVelocity(waveNumber, integrationConst)

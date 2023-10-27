@@ -1,4 +1,4 @@
-set width 10
+set width 16
 set numeric sigfig 3
 
 subroutine SolitonVelocity(waveNumber, integrationConst)
@@ -175,7 +175,7 @@ phaseShift = vector(-15, 3.7, 10)
 ghostInitialPositionCorrection = vector(0.0, 3.7, 6.125)
 
 
-time = 22
+time = 0
 filename = "Plots/ThreeSolitonCollision_t=" + (time).str() + ".pdf"
 set terminal pdf
 set output "%s" %filename
@@ -195,7 +195,7 @@ texExpression4 += "$, \quad \delta_i = \{ %s, %s, %s \}$" %(phaseShift[0], phase
 texExpression5 = "$c_i = \{ %s, %s, %s \}$" %(waveNumber[0]**2 + 6 * integrationConst, waveNumber[1]**2 + 6 * integrationConst, waveNumber[2]**2 + 6 * integrationConst)
 texExpression5 += "$, \quad a = %s$ (integration const.)" %(integrationConst)
 
-set title r"\parbox[t]{10cm}{\center Two-Soliton Solution of KdV Equation:\\[1ex] %s}" %(texExpression1)
+set title r"\parbox[t]{10cm}{\center Three-Soliton Solution of KdV Equation:\\[1ex] %s}" %(texExpression1)
 set xlabel "$x$"
 set ylabel "$y$" rotate -90
 set key below
@@ -225,7 +225,7 @@ set x2tics (r"$\delta_0$" phaseShift[0], r"$\delta_1$" phaseShift[1], r"$\delta_
 set grid x1y1
 
 
-plotPointsPerUnitLength = 10
+plotPointsPerUnitLength = 15
 plotPoints = plotPointsPerUnitLength * (xMax - xMin)
 xIncrement = (xMax - xMin) / (plotPoints - 1)
 
