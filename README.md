@@ -28,8 +28,9 @@ pyxplot FourSolitonCollision.py
 pyxplot FourSolitonCollisionAnimate.py 
 ```
 
-<!-- ![Plot5](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/FourSoliton/Plots/FourSolitonCollision_t=0.jpeg)
-![Plot6](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/FourSoliton/Plots/FourSolitonCollision_t=25.jpeg) -->
+![Plot5](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/FourSoliton/Plots/FourSolitonCollision_t=0.jpeg)
+![Plot6](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/FourSoliton/Plots/FourSolitonCollision_t=20.jpeg)
+![Plot6](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/FourSoliton/Plots/FourSolitonCollision_t=27.jpeg)
 
 ## Compare similar results with other scientific plotting software: Pyxplot, Asymptote, SageMath
 

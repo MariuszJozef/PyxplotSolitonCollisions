@@ -1,0 +1,293 @@
+set width 10
+set numeric sigfig 3
+
+subroutine SolitonVelocity(waveNumber, integrationConst)
+{
+    velocity = []
+
+    foreach k in waveNumber
+    {
+        call velocity.append(k**2 + 6 * integrationConst)
+    }
+
+    return velocity
+}
+
+subroutine PhaseArg(x, t)
+{
+    phaseArg = []
+    velocity = SolitonVelocity(waveNumber, integrationConst)
+
+    for (i = 0; i < waveNumber.len(); i++)
+    {
+        call phaseArg.append(waveNumber[i] * (x - velocity[i] * t - phaseShift[i]))
+    }
+
+    return phaseArg
+}
+
+subroutine PhaseArgGhost(x, t, waveNumber_, phaseShift_)
+{
+    velocity = waveNumber_**2 + 6 * integrationConst
+    return waveNumber_ * (x - velocity * t - phaseShift_)
+}
+
+CouplingA(i, j) = (waveNumber[i] - waveNumber[j])**2 / (waveNumber[i] + waveNumber[j])**2
+CouplingAA(i, j) = (waveNumber[i] - waveNumber[j])**2 / (waveNumber[i] + waveNumber[j])
+CouplingAAA(i, j) = (waveNumber[i] - waveNumber[j])**2
+
+CouplingB(i, j, k) = CouplingA(i, j) * CouplingA(i, k) * CouplingA(j, k)
+CouplingBB(i, j, k) = CouplingB(i, j, k) * (waveNumber[i] + waveNumber[j] + waveNumber[k])
+CouplingBBB(i, j, k) = CouplingB(i, j, k) * (waveNumber[i] + waveNumber[j] + waveNumber[k])**2
+
+CouplingC(i, j, k, l) = CouplingA(i, j) * CouplingA(i, k) * CouplingA(i, l) \
+                        * CouplingA(j, k) * CouplingA(j, l) * CouplingA(k, l)
+
+CouplingCC(i, j, k, l) = CouplingC(i, j, k, l) * (waveNumber[i] + waveNumber[j] + waveNumber[k] + waveNumber[l])
+
+CouplingCCC(i, j, k, l) = CouplingC(i, j, k, l) * (waveNumber[i] + waveNumber[j] + waveNumber[k] + waveNumber[l])**2
+
+subroutine Numerator1(x, t)
+{
+    numerator = 0
+    sumPhaseArgs = 0
+
+    for (i = 0; i < waveNumber.len(); i++)
+    {
+        numerator += waveNumber[i]**2 * exp(PhaseArg(x, t)[i])
+        sumPhaseArgs += PhaseArg(x, t)[i]
+    }
+
+    numerator += CouplingAAA(0, 1) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[1])
+    numerator += CouplingAAA(0, 2) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[2])
+    numerator += CouplingAAA(0, 3) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[3])
+    numerator += CouplingAAA(1, 2) * exp(PhaseArg(x, t)[1] + PhaseArg(x, t)[2])
+    numerator += CouplingAAA(1, 3) * exp(PhaseArg(x, t)[1] + PhaseArg(x, t)[3])
+    numerator += CouplingAAA(2, 3) * exp(PhaseArg(x, t)[2] + PhaseArg(x, t)[3])
+
+    numerator += CouplingBBB(0, 1, 2) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[1] + PhaseArg(x, t)[2])
+    numerator += CouplingBBB(0, 1, 3) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[1] + PhaseArg(x, t)[3])
+    numerator += CouplingBBB(0, 2, 3) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[2] + PhaseArg(x, t)[3])
+    numerator += CouplingBBB(1, 2, 3) * exp(PhaseArg(x, t)[1] + PhaseArg(x, t)[2] + PhaseArg(x, t)[3])
+
+    numerator += CouplingCCC(0, 1, 2, 3) * exp(sumPhaseArgs)
+
+    return numerator
+}
+
+subroutine Numerator2(x, t)
+{
+    numerator = 0
+    sumPhaseArgs = 0
+
+    for (i = 0; i < waveNumber.len(); i++)
+    {
+        numerator += waveNumber[i] * exp(PhaseArg(x, t)[i])
+        sumPhaseArgs += PhaseArg(x, t)[i]
+    }
+
+    numerator += CouplingAA(0, 1) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[1])
+    numerator += CouplingAA(0, 2) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[2])
+    numerator += CouplingAA(0, 3) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[3])
+    numerator += CouplingAA(1, 2) * exp(PhaseArg(x, t)[1] + PhaseArg(x, t)[2])
+    numerator += CouplingAA(1, 3) * exp(PhaseArg(x, t)[1] + PhaseArg(x, t)[3])
+    numerator += CouplingAA(2, 3) * exp(PhaseArg(x, t)[2] + PhaseArg(x, t)[3])
+
+    numerator += CouplingBB(0, 1, 2) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[1] + PhaseArg(x, t)[2])
+    numerator += CouplingBB(0, 1, 3) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[1] + PhaseArg(x, t)[3])
+    numerator += CouplingBB(0, 2, 3) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[2] + PhaseArg(x, t)[3])
+    numerator += CouplingBB(1, 2, 3) * exp(PhaseArg(x, t)[1] + PhaseArg(x, t)[2] + PhaseArg(x, t)[3])
+
+    numerator += CouplingCC(0, 1, 2, 3) * exp(sumPhaseArgs)
+
+    return numerator
+}
+
+subroutine Denominator(x, t)
+{
+    denominator = 1
+    sumPhaseArgs = 0
+
+    foreach p in PhaseArg(x, t)
+    {
+        denominator += exp(p)
+        sumPhaseArgs += p
+    }
+
+    denominator += CouplingA(0, 1) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[1])
+    denominator += CouplingA(0, 2) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[2])
+    denominator += CouplingA(0, 3) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[3])
+    denominator += CouplingA(1, 2) * exp(PhaseArg(x, t)[1] + PhaseArg(x, t)[2])
+    denominator += CouplingA(1, 3) * exp(PhaseArg(x, t)[1] + PhaseArg(x, t)[3])
+    denominator += CouplingA(2, 3) * exp(PhaseArg(x, t)[2] + PhaseArg(x, t)[3])
+
+    denominator += CouplingB(0, 1, 2) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[1] + PhaseArg(x, t)[2])
+    denominator += CouplingB(0, 1, 3) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[1] + PhaseArg(x, t)[3])
+    denominator += CouplingB(0, 2, 3) * exp(PhaseArg(x, t)[0] + PhaseArg(x, t)[2] + PhaseArg(x, t)[3])
+    denominator += CouplingB(1, 2, 3) * exp(PhaseArg(x, t)[1] + PhaseArg(x, t)[2] + PhaseArg(x, t)[3])
+
+    denominator += CouplingC(0, 1, 2, 3) * exp(sumPhaseArgs)
+
+    return denominator
+}
+
+subroutine MultiSoliton(x, t)
+{
+    return 2 * Numerator1(x, t) / Denominator(x, t) \
+        - 2 * (Numerator2(x, t) / Denominator(x, t))**2 \
+        + integrationConst
+}
+
+subroutine SingleSolitonGhost(x, t, waveNumber_, phaseShift_)
+{
+    sechArg = sech(0.5 * PhaseArgGhost(x, t, waveNumber_, phaseShift_))
+
+    return 0.5 * waveNumber_**2 * sechArg**2 + integrationConst
+}
+
+# Another equivalent equation for a single KdV soliton:
+# subroutine SingleSolitonGhost(x, t, waveNumber_, phaseShift_)
+# {
+#     expArg = exp(PhaseArgGhost(x, t, waveNumber_, phaseShift_))
+#     return 2 * waveNumber_**2 * expArg / (1 + expArg)**2 + integrationConst
+# }
+
+subroutine SolitonMaxTravelTime(xMin, xMax, phaseShift)
+{
+    travelTimes = []
+    i = 0
+    foreach v in SolitonVelocity(waveNumber, integrationConst)
+    {
+        if (abs(v) < 1.0E-6) # i.e. velocity is zero
+        {
+            continue
+        } else if (abs(v) < 0.4) {
+            # exclude snail-pace velocity, it would make the travel time exceedingly long
+            continue
+        } else if (v > 0) {
+            travelDistance = xMax - phaseShift[i]
+        } else if (v < 0) {
+            travelDistance = phaseShift[i] - xMin
+        }
+
+        i++
+        call travelTimes.append(travelDistance / abs(v))
+    }
+
+    maxTravelTime = max(travelTimes)
+
+    return round(maxTravelTime)
+}
+
+subroutine SolitonMaxValue(xMin, xMax)
+{
+    plotPointsPerUnitLength = 3 # rough approximation suffices
+    plotPoints = plotPointsPerUnitLength * (xMax - xMin)
+    xIncrement = (xMax - xMin) / (plotPoints - 1)
+    y = []
+
+    for (i = 0; i < plotPoints; i++)
+    {
+        x = xMin + i * xIncrement
+        call y.append(MultiSoliton(x, 0))
+    }
+
+    yMax = max(y)
+    yMax = ceil(yMax * 10) / 10
+
+    return yMax
+}
+
+
+integrationConst = -2/3
+waveNumber = vector(2.2, 2.1, 1.9, 1.8)
+phaseShift = vector(-20, -15, 2, 10)
+# TRIAL AND ERROR CORRECTIONS TO INITIAL POSITIONS (PEAK LOCATIONS) OF GHOST SOLITONS:
+ghostInitialPositionCorrection = vector(0.0, 3.6, 5.9, 9.425)
+
+
+time = 0
+filename = "Plots/FourSolitonCollision_t=" + (time).str() + ".pdf"
+set terminal pdf
+set output "%s" %filename
+
+
+texExpression1 = "$u_t(x, t) + 6 u(x, t) u_x(x, t) + u_{xxx}(x, t) = 0$"
+
+texExpression2 = "$\eta_i(x, t) = k_i \bigl(x - \underbrace{(k_i^2 + 6 a)}_{c_i \mathrm{\ (velocity)}} t - \delta_i \bigr), \quad i \in \{ 0, 1, 2, 3 \}"
+texExpression2 += ", \quad t = %s$" %(time)
+#texExpression2 += "\makebox[1.5cm][l]{$, \quad t = %s$}" %(time)
+
+texExpression3 = "$u( \{ \eta_i(x, t) \} ) = \cdots + a\quad$ (a closed-form expression)"
+
+texExpression4 = "$k_i = \{ %s, %s, %s, %s \}$" %(waveNumber[0], waveNumber[1], waveNumber[2], waveNumber[3])
+texExpression4 += "$, \quad \delta_i = \{ %s, %s, %s, %s \}$" %(phaseShift[0], phaseShift[1], phaseShift[2], phaseShift[3])
+
+texExpression5 = "$c_i = \{ %s, %s, %s, %s \}$" %(waveNumber[0]**2 + 6 * integrationConst, waveNumber[1]**2 + 6 * integrationConst, waveNumber[2]**2 + 6 * integrationConst, waveNumber[3]**2 + 6 * integrationConst)
+texExpression5 += "$, \quad a = %s$ (integration const.)" %(integrationConst)
+
+set title r"\parbox[t]{10cm}{\center Two-Soliton Solution of KdV Equation:\\[1ex] %s}" %(texExpression1)
+set xlabel "$x$"
+set ylabel "$y$" rotate -90
+set key below
+
+
+xMin = -25
+xMax = -xMin
+xTickStep = (xMax - xMin) / 10
+mxTickStep = xTickStep / 2
+set xrange [xMin : xMax]
+set xtics xMin, xTickStep, xMax
+set mxtics xMin, mxTickStep, xMax
+
+
+yMin = integrationConst
+yMax = SolitonMaxValue(xMin, xMax)
+yTickStep = (yMax - yMin) / 2
+myTickStep = yTickStep / 3
+yExtra = 0.2
+set yrange [yMin - yExtra : yMax + yExtra]
+set ytics yMin, yTickStep, yMax + yTickStep
+set mytics yMin, myTickStep, yMax
+
+
+set axis x2 top linked x1
+set x2tics (r"$\delta_0$" phaseShift[0], r"$\delta_1$" phaseShift[1], r"$\delta_1$" phaseShift[2], r"$\delta_1$" phaseShift[3])
+set grid x1y1
+
+
+plotPointsPerUnitLength = 15
+plotPoints = plotPointsPerUnitLength * (xMax - xMin)
+xIncrement = (xMax - xMin) / (plotPoints - 1)
+
+print "xMin = %.0f, xMax = %.0f, yMin = %.3f, yMax = %.3f" %(xMin, xMax, yMin, yMax)
+
+print "plotPointsPerUnitLength = %d, plotPoints = %d, xIncrement = %.2E" %(plotPointsPerUnitLength, plotPoints, xIncrement)
+
+print "Soliton max travel time = %.1f" % SolitonMaxTravelTime(xMin, xMax, phaseShift)
+
+
+set samples plotPoints
+
+plot MultiSoliton(x, time) \
+        with linetype 1 linewidth 3 color Mulberry \
+        title r"\parbox[t]{11cm}{%s \\[1ex] %s \\[1ex] %s \\[1ex] %s}" \
+        %(texExpression2, texExpression3, texExpression4, texExpression5), \
+    SingleSolitonGhost(x, time, waveNumber[0], phaseShift[0] + ghostInitialPositionCorrection[0]) \
+        with linetype 5 linewidth 2 color Rhodamine \
+        title "``Ghost'': an individual would-be soliton in the absence of collision", \
+    SingleSolitonGhost(x, time, waveNumber[1], phaseShift[1] + ghostInitialPositionCorrection[1]) \
+        with linetype 5 linewidth 2 color Rhodamine title "", \
+    SingleSolitonGhost(x, time, waveNumber[2], phaseShift[2] + ghostInitialPositionCorrection[2]) \
+        with linetype 5 linewidth 2 color Rhodamine title "", \
+    SingleSolitonGhost(x, time, waveNumber[3], phaseShift[3] + ghostInitialPositionCorrection[3]) \
+        with linetype 5 linewidth 2 color Rhodamine title ""
+
+
+print "Output written to file: " + filename
+
+filename = "Plots/FourSolitonCollision_t=" + (time).str() + ".jpeg"
+set terminal jpeg
+set output "%s" %filename
+refresh
+print "Output written to file: " + filename
