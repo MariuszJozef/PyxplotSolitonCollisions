@@ -18,8 +18,9 @@ cd ../ThreeSoliton
 pyxplot ThreeSolitonCollision.py 
 pyxplot ThreeSolitonCollisionAnimate.py 
 ```
-<!-- ![Plot3](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/ThreeSoliton/Plots/ThreeSolitonCollision_t=0.jpeg)
-![Plot4](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/ThreeSoliton/Plots/ThreeSolitonCollision_t=22.jpeg) -->
+![Plot3](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/ThreeSoliton/Plots/ThreeSolitonCollision_t=0.jpeg)
+![Plot4](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/ThreeSoliton/Plots/ThreeSolitonCollision_t=21.5.jpeg)
+![Plot4](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/ThreeSoliton/Plots/ThreeSolitonCollision_t=22.jpeg)
 
 ```
 cd ../FourSoliton
