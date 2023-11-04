@@ -8,18 +8,6 @@ pyxplot TwoSolitonCollision.py
 pyxplot TwoSolitonCollisionAnimate.py 
 ```
 
-## Two solitons coalesce and split but do not superpose and emerge with a phase shift
-
-![Animate1](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/TwoSoliton/Plots/Animate/TwoSolitonMergeSplitCollision.gif)
-
-</br>
-</br>
-
-## Two solitons do not coalesce but pass through each other, do not superpose and emerge with a phase shift
-
-![Animate2](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/TwoSoliton/Plots/Animate/TwoSolitonBounceExchangeCollision.gif)
-
-</br>
 </br>
 </br>
 
@@ -30,6 +18,20 @@ pyxplot TwoSolitonCollisionAnimate.py
 </br>
 
 ![Plot2](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/TwoSoliton/Plots/TwoSolitonCollision_t=22.jpeg)
+
+</br>
+</br>
+
+## Two solitons coalesce and split but do not superpose and emerge with a phase shift
+
+![Animate1](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/TwoSoliton/Plots/Animate/TwoSolitonMergeSplitCollision.gif)
+
+</br>
+</br>
+
+## Two solitons do not coalesce but pass through each other, do not superpose and emerge with a phase shift
+
+![Animate2](https://github.com/MariuszJozef/PyxplotSolitonCollisions/blob/develop/TwoSoliton/Plots/Animate/TwoSolitonBounceExchangeCollision.gif)
 
 </br>
 </br>
