@@ -153,13 +153,15 @@ subroutine SolitonMaxValue(xMin, xMax)
 
 
 integrationConst = -2/3
-waveNumber = vector(2.1, 1.8)
+#waveNumber = vector(2.1, 1.8)
+waveNumber = vector(2.2, 1.4)
 phaseShift = vector(-15, 10)
 # TRIAL AND ERROR CORRECTIONS TO INITIAL POSITIONS (PEAK LOCATIONS) OF GHOST SOLITONS:
-ghostInitialPositionCorrection = vector(0.0, 2.9)
+#ghostInitialPositionCorrection = vector(0.0, 2.9)
+ghostInitialPositionCorrection = vector(0.0, 2.3)
 
 
-time = 0
+time = 10.3
 filename = "Plots/TwoSolitonCollision_t=" + (time).str() + ".pdf"
 set terminal pdf
 set output "%s" %filename
